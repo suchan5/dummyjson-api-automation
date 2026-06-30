@@ -3,18 +3,24 @@ package com.suchan.qa.api;
 import com.suchan.qa.base.BaseTest;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+
 
 public class FirstApiTest extends BaseTest {
     @Test
     void firstTest() {
         System.out.println("Hello Junit!");
         given()
-                .log().all()
                 .when()
                 .get("/posts/1")
                 .then()
-                .log().all()
-                .statusCode(200);
+                .statusCode(200)
+                .body("userId", equalTo(1))
+                .body("id", equalTo(1))
+                .body("title", equalTo("sunt aut facere repellat provident occaecati excepturi optio reprehenderit"))
+                .body("body", notNullValue())
+                .log().all();
 
     }
 }
