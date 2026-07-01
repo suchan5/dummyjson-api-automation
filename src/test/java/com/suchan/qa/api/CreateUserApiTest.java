@@ -1,20 +1,22 @@
 package com.suchan.qa.api;
 
 import com.suchan.qa.base.BaseTest;
+import com.suchan.qa.dto.CreateUserRequest;
 import com.suchan.qa.utils.ConfigReader;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
-import java.util.HashMap;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import java.util.Map;
 
 public class CreateUserApiTest extends BaseTest {
     @Test
     void createUserTest() {
-        Map<String, Object> createUserRequest = new HashMap<>();
-        createUserRequest.put("name", "Su");
-        createUserRequest.put("job", "QA Engineer");
+
+        // DTO Builder 사용 (롬복의 @Builder)
+        CreateUserRequest createUserRequest = CreateUserRequest.builder()
+                .name("Su")
+                .job("QA Engineer")
+                .build();
 
         given()
                 .contentType(ContentType.JSON)
