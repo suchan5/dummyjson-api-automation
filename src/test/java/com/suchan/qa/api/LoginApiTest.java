@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import io.restassured.http.ContentType;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class LoginApiTest extends BaseTest {

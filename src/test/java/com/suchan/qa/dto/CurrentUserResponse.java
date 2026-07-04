@@ -1,7 +1,7 @@
 package com.suchan.qa.dto;
 
-import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 @Getter
 @Setter
@@ -9,8 +9,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LoginResponse {
-    private String accessToken;
-    private String refreshToken;
+public class CurrentUserResponse {
+    private Integer id;
+    private String username;
+    private String firstName;
+    private String lastName;
+    private String email;
 
 }
