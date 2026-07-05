@@ -24,8 +24,10 @@ public class CurrentUserApiTest extends BaseTest {
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
                 .log().all()
+
                 .when()
                 .post("/auth/login")
+
                 .then()
                 .statusCode(200)
                 .log().all()
@@ -40,7 +42,7 @@ public class CurrentUserApiTest extends BaseTest {
         System.out.println(token);
 
         // Authorization: call protected API
-        CurrentUserResponse response = given()
+        CurrentUserResponse currentUserResponse = given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + token)
 
@@ -54,9 +56,27 @@ public class CurrentUserApiTest extends BaseTest {
                 .as(CurrentUserResponse.class);
 
         // Assert
-        assertEquals("emilys", response.getUsername());
-        assertEquals("Emily", response.getFirstName());
-        assertNotNull(response.getEmail());
+        assertEquals("emilys", currentUserResponse.getUsername());
+        assertEquals("Emily", currentUserResponse.getFirstName());
+        assertNotNull(currentUserResponse.getEmail());
+
+        // API Chaning: userId추출
+        int userId = currentUserResponse.getId();
+        assertEquals(1, userId);
+
+        // userId를 다른 API호출에 전달
+        CurrentUserResponse user = given()
+                .when()
+                .get("/users/" + userId)
+
+                .then()
+                .statusCode(200)
+                .log().all()
+                .extract()
+                .as(CurrentUserResponse.class);
+
+        assertEquals(userId, user.getId());
+
     }
 
     @Test
