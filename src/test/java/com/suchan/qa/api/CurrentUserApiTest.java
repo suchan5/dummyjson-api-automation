@@ -6,14 +6,15 @@ import com.suchan.qa.dto.LoginRequest;
 import com.suchan.qa.dto.LoginResponse;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
+
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CurrentUserApiTest extends BaseTest {
+
     @Test
     void currentUserTest() {
-        // 로그인
+        // Authentication: login
         LoginRequest loginRequest = LoginRequest.builder()
                 .username("emilys")
                 .password("emilyspass")
@@ -23,34 +24,34 @@ public class CurrentUserApiTest extends BaseTest {
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
                 .log().all()
-
                 .when()
                 .post("/auth/login")
-
                 .then()
                 .statusCode(200)
                 .log().all()
                 .extract()
                 .as(LoginResponse.class);
 
-        // 토큰 추출
+        // Extract token
         String token = loginResponse.getAccessToken();
 
-        // Authrorization "/auth/me" 호출
+        assertNotNull(token);
+        assertFalse(token.isEmpty());
+        System.out.println(token);
+
+        // Authorization: call protected API
         CurrentUserResponse currentUserResponse = given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + token)
-
                 .when()
                 .get("/auth/me")
-
                 .then()
                 .statusCode(200)
                 .log().all()
                 .extract()
                 .as(CurrentUserResponse.class);
 
-        // assert
+        // Assert
         assertEquals("emilys", currentUserResponse.getUsername());
         assertEquals("Emily", currentUserResponse.getFirstName());
         assertNotNull(currentUserResponse.getEmail());
