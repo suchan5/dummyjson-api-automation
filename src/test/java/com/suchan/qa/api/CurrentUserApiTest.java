@@ -6,9 +6,9 @@ import com.suchan.qa.dto.LoginRequest;
 import com.suchan.qa.dto.LoginResponse;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
-
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.equalTo;
 
 public class CurrentUserApiTest extends BaseTest {
 
@@ -43,8 +43,10 @@ public class CurrentUserApiTest extends BaseTest {
         CurrentUserResponse response = given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + token)
+
                 .when()
                 .get("/auth/me")
+
                 .then()
                 .statusCode(200)
                 .log().all()
@@ -55,5 +57,20 @@ public class CurrentUserApiTest extends BaseTest {
         assertEquals("emilys", response.getUsername());
         assertEquals("Emily", response.getFirstName());
         assertNotNull(response.getEmail());
+    }
+
+    @Test
+    void getCurrentUserWithoutTokenTest() {
+        given()
+                .contentType(ContentType.JSON)
+                .log().all()
+
+                .when()
+                .get("/auth/me")
+
+                .then()
+                .statusCode(401)
+                .body("message", equalTo("Access Token is required"))
+                .log().all();
     }
 }
