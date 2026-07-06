@@ -10,7 +10,7 @@ public class GetUserByIdTest extends BaseTest {
    @Test
     void getUserById() {
         CurrentUserResponse currentUserResponse = given()
-                .pathParam("id", 1)
+                .pathParam("id", 5)
 
                 .when()
                 .get("/users/{id}")
@@ -21,7 +21,9 @@ public class GetUserByIdTest extends BaseTest {
                 .extract()
                 .as(CurrentUserResponse.class);
 
-        assertEquals(1, currentUserResponse.getId());
+        assertEquals(5, currentUserResponse.getId());
+        assertEquals("Emma", currentUserResponse.getFirstName());
+        assertEquals("Miller", currentUserResponse.getLastName());
 
 
     }
