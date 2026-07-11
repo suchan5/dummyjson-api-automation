@@ -6,11 +6,13 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
 
 public class NegativeUserApiTest extends BaseTest {
 
     @Test
-    void getNonExisitngUserShouldReturn404() {
+    @DisplayName("Should return 404 when requesting a non-existing user")
+    void getNonExistingUserShouldReturn404() {
         ErrorResponse errorResponse = given()
                 .pathParam("id", 999999)
 
@@ -27,6 +29,7 @@ public class NegativeUserApiTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Should return 401 when requesting the current user without a token")
     void getCurrentUserWithoutTokenShouldReturn401 () {
         ErrorResponse errorResponse = given()
                 .when()
@@ -43,6 +46,7 @@ public class NegativeUserApiTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Should return 401 when requesting the current user with an invalid token")
     void getCurrentUserWithInvalidTokenShouldReturn401() {
         String invalidToken = "invalidToken";
         ErrorResponse errorResponse = given()

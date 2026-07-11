@@ -43,7 +43,6 @@ public class CurrentUserApiTest extends BaseTest {
 
         // Authorization: call protected API
         CurrentUserResponse currentUserResponse = given()
-                .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + token)
 
                 .when()
