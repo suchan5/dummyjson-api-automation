@@ -11,8 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CreateUserApiTest extends BaseTest {
     @Test
     void createUserTest() {
-        System.out.println("Hello Junit!");
-
         CreateUserRequest createUserRequest = CreateUserRequest.builder()
                 .firstName("Su Chan")
                 .lastName("Kim")
@@ -35,6 +33,6 @@ public class CreateUserApiTest extends BaseTest {
 
             assertEquals("Su Chan", createUserResponse.getFirstName());
             assertEquals("Kim", createUserResponse.getLastName());
-            assertEquals(55, createUserRequest.getAge());
+            assertEquals(55, createUserResponse.getAge());
     }
 }

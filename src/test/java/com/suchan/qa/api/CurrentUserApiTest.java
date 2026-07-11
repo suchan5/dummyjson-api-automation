@@ -39,7 +39,6 @@ public class CurrentUserApiTest extends BaseTest {
 
         assertNotNull(token);
         assertFalse(token.isBlank());
-        System.out.println(token);
 
         // Authorization: call protected API
         CurrentUserResponse currentUserResponse = given()
@@ -59,7 +58,7 @@ public class CurrentUserApiTest extends BaseTest {
         assertEquals("Emily", currentUserResponse.getFirstName());
         assertNotNull(currentUserResponse.getEmail());
 
-        // API Chaning: userId추출
+        // API Chaining: userId 추출
         int userId = currentUserResponse.getId();
         assertEquals(1, userId);
 
@@ -75,7 +74,10 @@ public class CurrentUserApiTest extends BaseTest {
                 .extract()
                 .as(CurrentUserResponse.class);
 
-        assertEquals(userId, user.getId());
+        assertEquals(currentUserResponse.getId(), user.getId());
+        assertEquals(currentUserResponse.getUsername(), user.getUsername());
+        assertEquals(currentUserResponse.getEmail(), user.getEmail());
+        assertEquals(currentUserResponse.getFirstName(), user.getFirstName());
 
     }
 
